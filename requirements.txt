@@ -2,6 +2,7 @@ flake8==2.5.5
 flake8-import-order==0.11
 flake8-pep257==1.0.5
 hacking==0.13.0
+Janome==0.2.8
 mccabe==0.2.1
 pbr==1.10.0
 pep257==0.7.0
