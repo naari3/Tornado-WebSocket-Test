@@ -13,6 +13,5 @@ html(lang="ja")
       div#app
         input#text_box(type="text")
         button#btn(onclick="send_message();") PUSH
-        span(v-if="tokenizing") 形態素解析中
         ul
           result-item(v-for="rslt in results", v-bind:rslt="rslt")
