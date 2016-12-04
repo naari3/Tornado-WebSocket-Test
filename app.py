@@ -23,19 +23,25 @@ class IndexHandler(tornado.web.RequestHandler):
 
 
 class TokenizeHandler(tornado.websocket.WebSocketHandler):
+
+    users = set()
+
     def open(self):
+        self.users.add(self)
         print('Session opened by {}'.format(self.request.remote_ip))
 
     def on_message(self, message):
         message = json.loads(message)
         t = Tokenizer()
-        tokens = t.tokenize(message["former_text"])
-        message["tokenized_text"] = ""
+        tokens = t.tokenize(message["text"])
+        message["text"] = ""
         for token in tokens:
-            message["tokenized_text"] += "{} ".format(token.surface)
-        self.write_message(message)
+            message["text"] += "{} ".format(token.surface)
+        for user in self.users:
+            user.write_message(message)
 
     def on_close(self):
+        self.users.remove(self)
         print('Session closed by {}'.format(self.request.remote_ip))
 
 class Application(tornado.web.Application):
