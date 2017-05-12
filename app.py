@@ -32,13 +32,14 @@ class TokenizeHandler(tornado.websocket.WebSocketHandler):
 
     def on_message(self, message):
         message = json.loads(message)
-        t = Tokenizer()
-        tokens = t.tokenize(message["text"])
-        message["text"] = ""
-        for token in tokens:
-            message["text"] += "{} ".format(token.surface)
-        for user in self.users:
-            user.write_message(message)
+        if message["text"]:
+            t = Tokenizer()
+            tokens = t.tokenize(message["text"])
+            message["text"] = ""
+            for token in tokens:
+                message["text"] += "{} ".format(token.surface)
+            for user in self.users:
+                user.write_message(message)
 
     def on_close(self):
         self.users.remove(self)

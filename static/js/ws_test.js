@@ -3,7 +3,7 @@ var socket = new WebSocket('ws://' + location.host + '/tokenize');
 socket.onmessage = function (message) {
   // console.log(message);
   message = JSON.parse(message.data);
-  app.results.push({
+  app.results.unshift({
     text: message.text
   });
 }
